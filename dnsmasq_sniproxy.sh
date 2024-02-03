@@ -231,19 +231,19 @@ install_dnsmasq(){
             error_detect_depends "yum -y install make"
             error_detect_depends "yum -y install gcc-c++"
             cd /tmp/
-            if [ -e dnsmasq-2.80 ]; then
-                rm -rf dnsmasq-2.80
+            if [ -e dnsmasq-2.89 ]; then
+                rm -rf dnsmasq-2.89
             fi
-            download dnsmasq-2.80.tar.gz http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.80.tar.gz
-            tar -zxf dnsmasq-2.80.tar.gz
-            cd dnsmasq-2.80
+            download dnsmasq-2.89.tar.gz http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.89.tar.gz
+            tar -zxf dnsmasq-2.89.tar.gz
+            cd dnsmasq-2.89
             make
             if [ $? -ne 0 ]; then
                 echo -e "[${red}Error${plain}] dnsmasq upgrade failed."
-                rm -rf /tmp/dnsmasq-2.80 /tmp/dnsmasq-2.80.tar.gz
+                rm -rf /tmp/dnsmasq-2.89 /tmp/dnsmasq-2.89.tar.gz
                 exit 1
             fi
-            yes|cp -f /tmp/dnsmasq-2.80/src/dnsmasq /usr/sbin/dnsmasq && chmod 755 /usr/sbin/dnsmasq
+            yes|cp -f /tmp/dnsmasq-2.89/src/dnsmasq /usr/sbin/dnsmasq && chmod 755 /usr/sbin/dnsmasq
         fi
     elif check_sys packageManager apt; then
         error_detect_depends "apt-get -y install dnsmasq"
@@ -270,7 +270,7 @@ install_dnsmasq(){
         systemctl restart dnsmasq
     fi
     cd /tmp
-    rm -rf /tmp/dnsmasq-2.80 /tmp/dnsmasq-2.80.tar.gz /tmp/proxy-domains.txt
+    rm -rf /tmp/dnsmasq-2.89 /tmp/dnsmasq-2.89.tar.gz /tmp/proxy-domains.txt
     echo -e "[${green}Info${plain}] dnsmasq install complete..."
 }
 
@@ -303,9 +303,9 @@ install_sniproxy(){
     if check_sys packageManager yum; then
         if [[ ${fastmode} = "1" ]]; then
             if [[ ${bit} = "x86_64" ]]; then
-                download /tmp/sniproxy-0.6.0.el7.x86_64.rpm https://github.com/myxuchangbin/dnsmasq_sniproxy_install/raw/master/sniproxy/sniproxy-0.6.0.el7.x86_64.rpm
-                error_detect_depends "yum -y install /tmp/sniproxy-0.6.0.el7.x86_64.rpm"
-                rm -rf /tmp/sniproxy-0.6.0.el7.x86_64.rpm
+                download /tmp/sniproxy-0.6.1-1.el7.x86_64.rpm https://github.com/myxuchangbin/dnsmasq_sniproxy_install/raw/master/sniproxy/sniproxy-0.6.1-1.el7.x86_64.rpm
+                error_detect_depends "yum -y install /tmp/sniproxy-0.6.1-1.el7.x86_64.rpm"
+                rm -rf /tmp/sniproxy-0.6.1-1.el7.x86_64.rpm
             else
                 echo -e "${red}暂不支持${bit}内核，请使用编译模式安装！${plain}" && exit 1
             fi
@@ -323,9 +323,9 @@ install_sniproxy(){
     elif check_sys packageManager apt; then
         if [[ ${fastmode} = "1" ]]; then
             if [[ ${bit} = "x86_64" ]]; then
-                download /tmp/sniproxy_0.6.0_amd64.deb https://github.com/myxuchangbin/dnsmasq_sniproxy_install/raw/master/sniproxy/sniproxy_0.6.0_amd64.deb
-                error_detect_depends "dpkg -i --no-debsig /tmp/sniproxy_0.6.0_amd64.deb"
-                rm -rf /tmp/sniproxy_0.6.0_amd64.deb
+                download /tmp/sniproxy_0.6.1_amd64.deb https://github.com/myxuchangbin/dnsmasq_sniproxy_install/raw/master/sniproxy/sniproxy_0.6.1_amd64.deb
+                error_detect_depends "dpkg -i --no-debsig /tmp/sniproxy_0.6.1_amd64.deb"
+                rm -rf /tmp/sniproxy_0.6.1_amd64.deb
             elif [[ ${bit} = "i386" ]]; then
                 download /tmp/sniproxy_0.6.0_i386.deb https://github.com/myxuchangbin/dnsmasq_sniproxy_install/raw/master/sniproxy/sniproxy_0.6.0_i386.deb
                 error_detect_depends "dpkg -i --no-debsig /tmp/sniproxy_0.6.0_i386.deb"
